@@ -51,6 +51,7 @@ int main(void)
 		}
 
 		prices[i] = sum;
+		prices[i] = sum;
 	}
 
 	sort(prices.begin(), prices.end());
