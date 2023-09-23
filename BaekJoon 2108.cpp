@@ -1,9 +1,8 @@
 ﻿#include <iostream>
 #include <vector>
-#include <cmath>
-#include <algorithm>
+#include <algorithm> // sort 함수를 사용하기 위해 포함
 #include <map>
-#include <cstdlib>
+#include <cmath>
 using namespace std;
 
 double avg(const vector<int>& arr)
@@ -39,29 +38,41 @@ int frequency(vector<int>& arr)
 		freMap[element]++;
 	}
 
-	int mostNumber = -1;
 	int maxFre = 0;
+	vector<int> Frearr;
 
 	for (const auto& pair : freMap)
 	{
 		if (pair.second > maxFre)
 		{
-			mostNumber = pair.first;
 			maxFre = pair.second;
+			Frearr.clear(); 
+			Frearr.push_back(pair.first);
+		}
+		else if (pair.second == maxFre)
+		{
+			Frearr.push_back(pair.first);
 		}
 	}
-	return mostNumber;
-	//보류
+	if (Frearr.size() >= 2)
+	{
+		sort(Frearr.begin(), Frearr.end());
+		Frearr.erase(Frearr.begin());
+	}
+	return Frearr.front();
 }
 
 int main()
 {
-	int N;
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+
 	vector<int> arr;
+	int N;
 	cin >> N;
 	if (N % 2 == 0)
 	{
-		cout << "홀수만 입력" << "\n";
+		cout << "홀수만 입력하시오.";
 		return 0;
 	}
 	for (int i = 0; i < N; i++)
@@ -70,22 +81,20 @@ int main()
 		cin >> input;
 		arr.push_back(input);
 	}
+
 	sort(arr.begin(), arr.end());
-	cout << "정렬된 배열: ";
-	for (int element : arr) {
-		cout << element << " ";
-	}
+
 	int front = arr.front();
 	int back = arr.back();
-	cout << endl;
 
 	double average = avg(arr);
-	int mid = middle(arr);
 	int fre = frequency(arr);
+	int mid = middle(arr);
 
-	cout << "=========================" << "\n";
-	cout << floor(average) << "\n";
-	cout << mid <<"\n";
-	cout << fre <<"\n";
+	cout << floor(average + 0.5) << "\n";
+	cout << mid << "\n";
+	cout << fre << "\n";
 	cout << back - front << "\n";
+
+	return 0;
 }
