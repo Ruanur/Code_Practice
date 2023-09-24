@@ -1,34 +1,10 @@
 ﻿#include <iostream>
 #include <vector>
-#include <algorithm> // sort 함수를 사용하기 위해 포함
+#include <algorithm>
 #include <map>
 #include <cmath>
+#include <numeric>
 using namespace std;
-
-double avg(const vector<int>& arr)
-{
-	double sum = 0;
-	double result = 0;
-	double size = arr.size();
-	for (int element : arr)
-	{
-		sum += element;
-	}
-	result = sum / size;
-	return result;
-}
-
-int middle(vector<int>& arr)
-{
-	int result;
-	for (int i = 0; i < arr.size() / 2; i++)
-	{
-		arr.erase(arr.begin());
-	}
-	result = arr.front();
-	return result;
-
-}
 
 int frequency(vector<int>& arr)
 {
@@ -46,7 +22,7 @@ int frequency(vector<int>& arr)
 		if (pair.second > maxFre)
 		{
 			maxFre = pair.second;
-			Frearr.clear(); 
+			Frearr.clear();
 			Frearr.push_back(pair.first);
 		}
 		else if (pair.second == maxFre)
@@ -67,34 +43,34 @@ int main()
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	vector<int> arr;
 	int N;
 	cin >> N;
+
 	if (N % 2 == 0)
 	{
 		cout << "홀수만 입력하시오.";
 		return 0;
 	}
+
+	vector<int> arr(N);
+
 	for (int i = 0; i < N; i++)
 	{
-		int input;
-		cin >> input;
-		arr.push_back(input);
+		cin >> arr[i];
 	}
 
 	sort(arr.begin(), arr.end());
 
-	int front = arr.front();
-	int back = arr.back();
+	double average = double(accumulate(arr.begin(), arr.end(), 0)) / double(N); // 평균 계산
+	int mid = arr[N / 2]; // 중앙값 계산
 
-	double average = avg(arr);
 	int fre = frequency(arr);
-	int mid = middle(arr);
+	int diff = arr.back() - arr.front(); // 최대값과 최소값의 차이 계산
 
-	cout << floor(average + 0.5) << "\n";
+	cout << floor(average + 0.5) << "\n"; // 반올림하여 출력
 	cout << mid << "\n";
 	cout << fre << "\n";
-	cout << back - front << "\n";
+	cout << diff << "\n";
 
 	return 0;
 }
